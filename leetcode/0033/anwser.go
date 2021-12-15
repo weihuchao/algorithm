@@ -1,28 +1,27 @@
 package main
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
+func search(nums []int, target int) int {
+	n := len(nums)
+	start, end := 0, n-1
 
-func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
-	head := &ListNode{}
-	node := head
-	for list1 != nil && list2 != nil {
-		if list1.Val < list2.Val {
-			node.Next = list1
-			list1 = list1.Next
-		} else {
-			node.Next = list2
-			list2 = list2.Next
+	for start <= end {
+		mid := (start + end) / 2
+		if nums[mid] == target {
+			return mid
 		}
-		node = node.Next
+		if nums[0] <= nums[mid] {
+			if nums[0] <= target && target < nums[mid] {
+				end = mid - 1
+			} else {
+				start = mid + 1
+			}
+		} else {
+			if nums[mid] < target && target <= nums[n-1] {
+				start = mid + 1
+			} else {
+				end = mid - 1
+			}
+		}
 	}
-	if list1 != nil {
-		node.Next = list1
-	}
-	if list2 != nil {
-		node.Next = list2
-	}
-	return head.Next
+	return -1
 }
