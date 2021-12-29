@@ -5,9 +5,11 @@
 import copy
 import json
 
+d_map = {0: u"上", 1: u"左", 2: u"右", 3: u"下"}
+
 
 def dfs(z, m, n, data, path, last_point, count, d=None):
-    z.append(0)
+    z[0] += 1
     i, j = last_point
     if d in [0, 3]:
         next_i_list = range(i - 1, -1, -1) if d == 0 else range(i + 1, m)
@@ -33,15 +35,15 @@ def dfs(z, m, n, data, path, last_point, count, d=None):
 
     i, j = last_point
     ds = []
-    if -1 < i - 1 < 5 and data[i - 1][j] == 0:
+    if -1 < i - 1 < m and data[i - 1][j] == 0:
         ds.append(0)
-    if -1 < j - 1 < 5 and data[i][j - 1] == 0:
+    if -1 < j - 1 < n and data[i][j - 1] == 0:
         ds.append(1)
-    if -1 < j + 1 < 5 and data[i][j + 1] == 0:
+    if -1 < j + 1 < n and data[i][j + 1] == 0:
         ds.append(2)
-    if -1 < i + 1 < 5 and data[i + 1][j] == 0:
+    if -1 < i + 1 < m and data[i + 1][j] == 0:
         ds.append(3)
-    d_map = {0: u"上", 1: u"左", 2: u"右", 3: u"下"}
+
     for d in ds:
         c = copy.deepcopy(data)
         p = copy.deepcopy(path)
@@ -56,7 +58,7 @@ def get_one_line(m=5, n=5, stone=None):
             data[i][j] = 1
     count = len(stone) + 1 if stone else 1
 
-    z = []
+    z = [0]
     for i in range(m):
         for j in range(n):
             if data[i][j] == 0:
@@ -64,7 +66,7 @@ def get_one_line(m=5, n=5, stone=None):
                 r[i][j] = 1
                 dfs(z, m, n, r, [(i, j), ], (i, j), count)
 
-    print len(z)
+    print z[0]
 
 
 if __name__ == '__main__':
